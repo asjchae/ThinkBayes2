@@ -19,3 +19,4 @@ pmf.Mult('Bowl 2', 0.5)
 pmf.Normalize()
 
 print(pmf.Prob('Bowl 1'))
+

@@ -10,6 +10,7 @@ from __future__ import print_function, division
 import numpy
 import thinkbayes2
 import thinkplot
+import matplotlib
 
 from itertools import product
 
@@ -24,8 +25,14 @@ class Gps(thinkbayes2.Suite, thinkbayes2.Joint):
         data: 
         """
         # TODO: fill this in
-        like = 1
-        return like
+        
+        predx, predy = hypo
+        newx, newy = data
+        stdev = 30
+        mean = 0
+        likeX = thinkbayes2.EvalNormalPdf(newx-predx, mean, stdev)
+        likeY = thinkbayes2.EvalNormalPdf(newy-predy, mean, stdev)
+        return likeX*likeY
 
 
 def main():
@@ -48,6 +55,14 @@ def main():
 
     # TODO: plot the marginals and print the posterior means
 
+    pdfX = joint.Marginal(0)
+    pdfY = joint.Marginal(1)
+    thinkplot.Pdf(pdfX)
+    thinkplot.Pdf(pdfY)
+    thinkplot.Show()
+
+    print(pdfX.Mean())
+    print(pdfY.Mean())
 
 if __name__ == '__main__':
     main()
